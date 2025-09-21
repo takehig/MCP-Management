@@ -97,6 +97,7 @@ async function saveTool() {
         tool_key: document.getElementById('addToolKey').value,
         tool_name: document.getElementById('addToolName').value,
         description: document.getElementById('addDescription').value,
+        mcp_server_name: document.getElementById('addMcpServer').value,
         remarks: document.getElementById('addRemarks').value || null
     };
 
@@ -130,6 +131,7 @@ function editTool(toolKey) {
     document.getElementById('editToolKey').value = tool.tool_key;
     document.getElementById('editToolName').value = tool.tool_name;
     document.getElementById('editDescription').value = tool.description;
+    document.getElementById('editMcpServer').value = tool.mcp_server_name || '';
     document.getElementById('editRemarks').value = tool.remarks || '';
 
     new bootstrap.Modal(document.getElementById('editModal')).show();
@@ -142,6 +144,7 @@ async function updateTool() {
         tool_key: toolKey,
         tool_name: document.getElementById('editToolName').value,
         description: document.getElementById('editDescription').value,
+        mcp_server_name: document.getElementById('editMcpServer').value,
         remarks: document.getElementById('editRemarks').value || null
     };
 
