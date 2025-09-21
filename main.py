@@ -20,12 +20,14 @@ class MCPTool(BaseModel):
     tool_key: str
     tool_name: str
     description: str
+    mcp_server_name: Optional[str] = None
     remarks: Optional[str] = None
 
 class MCPToolResponse(BaseModel):
     tool_key: str
     tool_name: str
     description: str
+    mcp_server_name: Optional[str]
     remarks: Optional[str]
     created_at: datetime
     updated_at: datetime
@@ -76,11 +78,11 @@ async def create_tool(tool: MCPTool):
     conn = await get_db_connection()
     try:
         query = """
-            INSERT INTO mcp_tools (tool_key, tool_name, description, remarks, created_at, updated_at)
-            VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            INSERT INTO mcp_tools (tool_key, tool_name, description, mcp_server_name, remarks, created_at, updated_at)
+            VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
             RETURNING *
         """
-        row = await conn.fetchrow(query, tool.tool_key, tool.tool_name, tool.description, tool.remarks)
+        row = await conn.fetchrow(query, tool.tool_key, tool.tool_name, tool.description, tool.mcp_server_name, tool.remarks)
         return dict(row)
     except asyncpg.UniqueViolationError:
         raise HTTPException(status_code=400, detail="Tool key already exists")
@@ -94,11 +96,11 @@ async def update_tool(tool_key: str, tool: MCPTool):
     try:
         query = """
             UPDATE mcp_tools 
-            SET tool_name = $2, description = $3, remarks = $4, updated_at = CURRENT_TIMESTAMP
+            SET tool_name = $2, description = $3, mcp_server_name = $4, remarks = $5, updated_at = CURRENT_TIMESTAMP
             WHERE tool_key = $1
             RETURNING *
         """
-        row = await conn.fetchrow(query, tool_key, tool.tool_name, tool.description, tool.remarks)
+        row = await conn.fetchrow(query, tool_key, tool.tool_name, tool.description, tool.mcp_server_name, tool.remarks)
         if not row:
             raise HTTPException(status_code=404, detail="Tool not found")
         return dict(row)
