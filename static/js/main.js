@@ -30,6 +30,7 @@ function renderTable() {
             <td>${tool.tool_key}</td>
             <td>${tool.tool_name}</td>
             <td>${truncateText(tool.description, 100)}</td>
+            <td><span class="badge bg-secondary">${tool.mcp_server_name || 'Unknown'}</span></td>
             <td>${tool.remarks || ''}</td>
             <td>${formatDateTime(tool.updated_at)}</td>
             <td>
@@ -47,7 +48,7 @@ function renderTable() {
 
 // テーブルソート機能
 function sortTable(columnIndex) {
-    const columns = ['tool_key', 'tool_name', 'description', 'remarks', 'updated_at'];
+    const columns = ['tool_key', 'tool_name', 'description', 'mcp_server_name', 'remarks', 'updated_at'];
     const column = columns[columnIndex];
 
     if (sortColumn === columnIndex) {
