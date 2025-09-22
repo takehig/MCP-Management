@@ -93,15 +93,28 @@ function updateSortIcons() {
 
 // 新規ツール保存
 async function saveTool() {
-    const toolData = {
-        tool_key: document.getElementById('addToolKey').value,
-        tool_name: document.getElementById('addToolName').value,
-        description: document.getElementById('addDescription').value,
-        mcp_server_name: document.getElementById('addMcpServer').value,
-        system_prompt: document.getElementById('addSystemPrompt').value || null
-    };
-
     try {
+        // DOM要素存在確認
+        const addToolKeyEl = document.getElementById('addToolKey');
+        const addToolNameEl = document.getElementById('addToolName');
+        const addDescriptionEl = document.getElementById('addDescription');
+        const addMcpServerEl = document.getElementById('addMcpServer');
+        const addSystemPromptEl = document.getElementById('addSystemPrompt');
+        
+        if (!addToolKeyEl) throw new Error('addToolKey element not found');
+        if (!addToolNameEl) throw new Error('addToolName element not found');
+        if (!addDescriptionEl) throw new Error('addDescription element not found');
+        if (!addMcpServerEl) throw new Error('addMcpServer element not found');
+        if (!addSystemPromptEl) throw new Error('addSystemPrompt element not found');
+        
+        const toolData = {
+            tool_key: addToolKeyEl.value,
+            tool_name: addToolNameEl.value,
+            description: addDescriptionEl.value,
+            mcp_server_name: addMcpServerEl.value,
+            system_prompt: addSystemPromptEl.value || null
+        };
+
         const response = await fetch('/api/tools', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -177,16 +190,29 @@ function editTool(toolKey) {
 
 // ツール更新
 async function updateTool() {
-    const toolKey = document.getElementById('editToolKey').value;
-    const toolData = {
-        tool_key: toolKey,
-        tool_name: document.getElementById('editToolName').value,
-        description: document.getElementById('editDescription').value,
-        mcp_server_name: document.getElementById('editMcpServer').value,
-        system_prompt: document.getElementById('editSystemPrompt').value || null
-    };
-
     try {
+        // DOM要素存在確認
+        const editToolKeyEl = document.getElementById('editToolKey');
+        const editToolNameEl = document.getElementById('editToolName');
+        const editDescriptionEl = document.getElementById('editDescription');
+        const editMcpServerEl = document.getElementById('editMcpServer');
+        const editSystemPromptEl = document.getElementById('editSystemPrompt');
+        
+        if (!editToolKeyEl) throw new Error('editToolKey element not found in updateTool');
+        if (!editToolNameEl) throw new Error('editToolName element not found in updateTool');
+        if (!editDescriptionEl) throw new Error('editDescription element not found in updateTool');
+        if (!editMcpServerEl) throw new Error('editMcpServer element not found in updateTool');
+        if (!editSystemPromptEl) throw new Error('editSystemPrompt element not found in updateTool');
+        
+        const toolKey = editToolKeyEl.value;
+        const toolData = {
+            tool_key: toolKey,
+            tool_name: editToolNameEl.value,
+            description: editDescriptionEl.value,
+            mcp_server_name: editMcpServerEl.value,
+            system_prompt: editSystemPromptEl.value || null
+        };
+
         const response = await fetch(`/api/tools/${toolKey}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
