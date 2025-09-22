@@ -136,14 +136,38 @@ function editTool(toolKey) {
     console.log('Found tool:', tool);
     
     try {
-        document.getElementById('editToolKey').value = tool.tool_key;
-        document.getElementById('editToolName').value = tool.tool_name;
-        document.getElementById('editDescription').value = tool.description;
-        document.getElementById('editMcpServer').value = tool.mcp_server_name || '';
-        document.getElementById('editSystemPrompt').value = tool.system_prompt || '';
+        // DOM要素存在確認
+        const editToolKeyEl = document.getElementById('editToolKey');
+        const editToolNameEl = document.getElementById('editToolName');
+        const editDescriptionEl = document.getElementById('editDescription');
+        const editMcpServerEl = document.getElementById('editMcpServer');
+        const editSystemPromptEl = document.getElementById('editSystemPrompt');
+        const editModalEl = document.getElementById('editModal');
+        
+        console.log('DOM elements check:', {
+            editToolKey: !!editToolKeyEl,
+            editToolName: !!editToolNameEl,
+            editDescription: !!editDescriptionEl,
+            editMcpServer: !!editMcpServerEl,
+            editSystemPrompt: !!editSystemPromptEl,
+            editModal: !!editModalEl
+        });
+        
+        if (!editToolKeyEl) throw new Error('editToolKey element not found');
+        if (!editToolNameEl) throw new Error('editToolName element not found');
+        if (!editDescriptionEl) throw new Error('editDescription element not found');
+        if (!editMcpServerEl) throw new Error('editMcpServer element not found');
+        if (!editSystemPromptEl) throw new Error('editSystemPrompt element not found');
+        if (!editModalEl) throw new Error('editModal element not found');
+        
+        editToolKeyEl.value = tool.tool_key;
+        editToolNameEl.value = tool.tool_name;
+        editDescriptionEl.value = tool.description;
+        editMcpServerEl.value = tool.mcp_server_name || '';
+        editSystemPromptEl.value = tool.system_prompt || '';
 
         console.log('Form fields populated successfully');
-        new bootstrap.Modal(document.getElementById('editModal')).show();
+        new bootstrap.Modal(editModalEl).show();
         console.log('Modal should be shown');
     } catch (error) {
         console.error('Error in editTool:', error);
