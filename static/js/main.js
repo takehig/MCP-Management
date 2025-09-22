@@ -125,16 +125,30 @@ async function saveTool() {
 
 // ツール編集
 function editTool(toolKey) {
+    console.log('editTool called with toolKey:', toolKey);
     const tool = tools.find(t => t.tool_key === toolKey);
-    if (!tool) return;
+    if (!tool) {
+        console.error('Tool not found:', toolKey);
+        alert('ツールが見つかりません');
+        return;
+    }
+    
+    console.log('Found tool:', tool);
+    
+    try {
+        document.getElementById('editToolKey').value = tool.tool_key;
+        document.getElementById('editToolName').value = tool.tool_name;
+        document.getElementById('editDescription').value = tool.description;
+        document.getElementById('editMcpServer').value = tool.mcp_server_name || '';
+        document.getElementById('editSystemPrompt').value = tool.system_prompt || '';
 
-    document.getElementById('editToolKey').value = tool.tool_key;
-    document.getElementById('editToolName').value = tool.tool_name;
-    document.getElementById('editDescription').value = tool.description;
-    document.getElementById('editMcpServer').value = tool.mcp_server_name || '';
-    document.getElementById('editSystemPrompt').value = tool.system_prompt || '';
-
-    new bootstrap.Modal(document.getElementById('editModal')).show();
+        console.log('Form fields populated successfully');
+        new bootstrap.Modal(document.getElementById('editModal')).show();
+        console.log('Modal should be shown');
+    } catch (error) {
+        console.error('Error in editTool:', error);
+        alert('編集モーダルの表示でエラーが発生しました: ' + error.message);
+    }
 }
 
 // ツール更新
