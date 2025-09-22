@@ -31,7 +31,7 @@ function renderTable() {
             <td>${tool.tool_name}</td>
             <td>${truncateText(tool.description, 100)}</td>
             <td><span class="badge bg-secondary">${tool.mcp_server_name || 'Unknown'}</span></td>
-            <td>${tool.remarks || ''}</td>
+            <td>${tool.system_prompt || ''}</td>
             <td>${formatDateTime(tool.updated_at)}</td>
             <td>
                 <button class="btn btn-sm btn-outline-primary me-1" onclick="editTool('${tool.tool_key}')">
@@ -48,7 +48,7 @@ function renderTable() {
 
 // テーブルソート機能
 function sortTable(columnIndex) {
-    const columns = ['tool_key', 'tool_name', 'description', 'mcp_server_name', 'remarks', 'updated_at'];
+    const columns = ['tool_key', 'tool_name', 'description', 'mcp_server_name', 'system_prompt', 'updated_at'];
     const column = columns[columnIndex];
 
     if (sortColumn === columnIndex) {
@@ -98,7 +98,7 @@ async function saveTool() {
         tool_name: document.getElementById('addToolName').value,
         description: document.getElementById('addDescription').value,
         mcp_server_name: document.getElementById('addMcpServer').value,
-        remarks: document.getElementById('addRemarks').value || null
+        system_prompt: document.getElementById('addSystemPrompt').value || null
     };
 
     try {
@@ -132,7 +132,7 @@ function editTool(toolKey) {
     document.getElementById('editToolName').value = tool.tool_name;
     document.getElementById('editDescription').value = tool.description;
     document.getElementById('editMcpServer').value = tool.mcp_server_name || '';
-    document.getElementById('editRemarks').value = tool.remarks || '';
+    document.getElementById('editSystemPrompt').value = tool.system_prompt || '';
 
     new bootstrap.Modal(document.getElementById('editModal')).show();
 }
@@ -145,7 +145,7 @@ async function updateTool() {
         tool_name: document.getElementById('editToolName').value,
         description: document.getElementById('editDescription').value,
         mcp_server_name: document.getElementById('editMcpServer').value,
-        remarks: document.getElementById('editRemarks').value || null
+        system_prompt: document.getElementById('editSystemPrompt').value || null
     };
 
     try {
